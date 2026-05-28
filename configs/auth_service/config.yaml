@@ -1,0 +1,46 @@
+# Настройки для окружения [local, dev, prod]
+env: "local"
+
+# Настройка уровня логирования [info, warn, error, debug]
+loglevel: debug
+
+# Настройка префикса для таблиц в БД
+table_prefix: auth_service
+
+# Настройка для автоматической миграции при старте сервиса
+enable_automigration: true
+
+# Настройки для хеширования пароля
+crypt:
+  times: 1
+  memory: 64
+  threads: 1
+  key_length: 32
+# salt: secret_password
+
+# Настройки для подключения к БД Postgres
+db_config:
+  db_host: localhost
+  db_port: 5430
+  max_open_connections: 100
+  max_idle_connections: 100
+  max_connection_lifetime: 10s
+  max_connection_idletime: 10s
+  ssl_mode: "disable"
+  # db_name: postgres_db
+  # db_user: postgres_user
+  # db_password: postgres_password
+
+# Настройки конфигурации http сервера
+http_server:
+  http_address: "localhost"
+  http_port: 8082
+  http_timeout: 4s
+  http_idle_timeout: 30s
+
+# Настройки для генерации токена
+token:
+  access_token_lifetime: 3600s
+  refresh_token_lifetime: 3600s
+  # secret_access_token: secret_access_token
+  # secret_refresh_token: secret_refresh_token
