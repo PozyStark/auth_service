@@ -43,7 +43,8 @@ func NewTokenCreator(
 	}
 }
 
-type UserInfo struct {
+type UserAccess struct {
+	Superuser   bool
 	Permissions []string
 	Roles       []string
 	Groups      []string
@@ -65,10 +66,9 @@ type RefreshTokenPayload struct {
 
 type AccessTokenPayload struct {
 	BaseTokenPayload
-	TokenType string
-	UserId    string
-	SuperUser bool
-	UserInfo
+	TokenType  string
+	UserId     string
+	UserAccess
 }
 
 func NewBaseTokenPayload(
@@ -124,8 +124,8 @@ func NewAccessTokenPayload(
 		BaseTokenPayload: btp,
 		TokenType:        ACCESS_TOKEN,
 		UserId:           userId,
-		SuperUser:        superuser,
-		UserInfo: UserInfo{
+		UserAccess: UserAccess{
+			Superuser:   superuser,
 			Permissions: permissions,
 			Roles:       roles,
 			Groups:      groups,
