@@ -67,6 +67,7 @@ type AccessTokenPayload struct {
 	BaseTokenPayload
 	TokenType string
 	UserId    string
+	SuperUser bool
 	UserInfo
 }
 
@@ -107,6 +108,7 @@ func NewAccessTokenPayload(
 	jti string,
 	expiredTime time.Duration,
 	userId string,
+	superuser bool,
 	permissions []string,
 	roles []string,
 	groups []string,
@@ -122,6 +124,7 @@ func NewAccessTokenPayload(
 		BaseTokenPayload: btp,
 		TokenType:        ACCESS_TOKEN,
 		UserId:           userId,
+		SuperUser:        superuser,
 		UserInfo: UserInfo{
 			Permissions: permissions,
 			Roles:       roles,
