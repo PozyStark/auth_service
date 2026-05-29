@@ -53,11 +53,11 @@ func LoginHandler(
 			)
 			return
 		}
-		if !user.IsActive {
+		if !user.Active {
 			Logger.Info(
 				fmt.Sprintf(
 					"Operation: %s UserId: %s IsActive: %v Msg: %s",
-					op, user.ID, user.IsActive, "User is not active",
+					op, user.ID, user.Active, "User is not active",
 				),
 			)
 			ctx.JSON(
