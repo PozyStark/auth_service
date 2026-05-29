@@ -53,6 +53,21 @@ func LoginHandler(
 			)
 			return
 		}
+		if !user.IsActive {
+			Logger.Info(
+				fmt.Sprintf(
+					"Operation: %s UserId: %s IsActive: %v Msg: %s",
+					op, user.ID, user.IsActive, "User is not active",
+				),
+			)
+			ctx.JSON(
+				http.StatusUnauthorized,
+				gin.H{
+					"msg": "User is not active",
+				},
+			)
+			return
+		}
 
 		userInfo, errs := app.GetUserInfo(
 			ctx,

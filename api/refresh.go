@@ -46,6 +46,33 @@ func RefreshHandler(
 			return
 		}
 
+		user, err := UserService.GetUserByUserId(ctx, tokenPayload.UserId)
+		if err != nil {
+			Logger.Error(fmt.Sprintf("Operation: %s Error: %v", op, err.Error()))
+			ctx.JSON(
+				http.StatusUnauthorized,
+				gin.H{
+					"msg": "Something went wrong",
+				},
+			)
+			return
+		}
+		if !user.IsActive {
+			Logger.Info(
+				fmt.Sprintf(
+					"Operation: %s UserId: %s IsActive: %v Msg: %s",
+					op, user.ID, user.IsActive, "User is not active",
+				),
+			)
+			ctx.JSON(
+				http.StatusUnauthorized,
+				gin.H{
+					"msg": "User is not active",
+				},
+			)
+			return
+		}
+
 		registryToken, err := RegistryTokenService.GetByTokenId(ctx, tokenPayload.TokenId)
 		if err != nil {
 			Logger.Error(fmt.Sprintf("Operation: %s Error: %v", op, err.Error()))
@@ -57,9 +84,8 @@ func RefreshHandler(
 			)
 			return
 		}
-
 		if !registryToken.Active {
-			Logger.Info(fmt.Sprintf("Operation: %s Info: %s", op, "Token is not active"))
+			Logger.Info(fmt.Sprintf("Operation: %s Msg: %s", op, "Token is not active"))
 			ctx.JSON(
 				http.StatusUnauthorized,
 				gin.H{
@@ -68,13 +94,17 @@ func RefreshHandler(
 			)
 			return
 		}
-
 		if registryToken.Jti != tokenPayload.Jti {
-			Logger.Info(fmt.Sprintf("Operation: %s Info: %s", op, "Token IDs do not match"))
+			Logger.Info(
+				fmt.Sprintf(
+					"Operation: %s PayloadJti: %s RegistryJti: %s Msg: %s", 
+					op, tokenPayload.Jti, registryToken.Jti,  "Token JTI do not match",
+				),
+			)
 			ctx.JSON(
 				http.StatusUnauthorized,
 				gin.H{
-					"msg": "Token IDs do not match",
+					"msg": "Token JTI do not match",
 				},
 			)
 			return
