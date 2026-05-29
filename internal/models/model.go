@@ -101,13 +101,13 @@ func (GroupPermission) TableName() string {
 }
 
 type RegistryToken struct {
-	ID        string        `gorm:"index;primaryKey;type:uuid;default:uuidv7()"`
-	UserID    string        `gorm:"index;not null;type:uuid"`
-	Jti       string        `gorm:"not null;type:uuid"`
-	CreatedAt time.Time     `gorm:"not null"`
-	UpdatedAt time.Time     `gorm:"not null"`
-	ExpireAt  time.Time     `gorm:"not null"`
-	Active    bool          `gorm:"not null;default:true"`
+	ID        string    `gorm:"index;primaryKey;type:uuid;default:uuidv7()"`
+	UserID    string    `gorm:"index;not null;type:uuid"`
+	Jti       string    `gorm:"not null;type:uuid"`
+	CreatedAt time.Time `gorm:"not null"`
+	UpdatedAt time.Time `gorm:"not null"`
+	ExpireAt  time.Time `gorm:"not null"`
+	Active    bool      `gorm:"not null;default:true"`
 }
 
 func (RegistryToken) TableName() string {
@@ -127,8 +127,8 @@ type User struct {
 	UpdatedAt   time.Time `gorm:"default:null"`
 	DeletedAt   time.Time `gorm:"default:null"`
 	LastLogin   time.Time `gorm:"default:null"`
-	IsSuperuser bool      `gorm:"default:false"`
-	IsActive    bool      `gorm:"default:true"`
+	Superuser   bool      `gorm:"default:false"`
+	Active      bool      `gorm:"default:true"`
 	Age         int
 }
 
