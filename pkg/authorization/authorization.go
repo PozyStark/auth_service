@@ -1,6 +1,7 @@
 package authorization
 
 import (
+	"auth-service/pkg/token/handler/jwt"
 	"sync"
 )
 
@@ -16,14 +17,8 @@ type Authorization struct {
 	RequiredGroups      []string
 }
 
-type UserAccess struct {
-	Permissions []string
-	Roles       []string
-	Groups      []string
-}
-
 type AccessResult struct {
-	AccessType  string
+	AccessType string
 	HaveAccess bool
 }
 
@@ -35,11 +30,15 @@ func sliceToMap(s []string) map[string]struct{} {
 	return m
 }
 
-func (a *Authorization) HaveAccess(userData *UserAccess) bool  {
+func (a *Authorization) HaveAccess(userAccess *jwt.UserAccess) bool {
 
-	permissionsMap := sliceToMap(userData.Permissions)
-	rolesMap := sliceToMap(userData.Roles)
-	groupsMap := sliceToMap(userData.Groups)
+	permissionsMap := sliceToMap(userAccess.Permissions)
+	rolesMap := sliceToMap(userAccess.Roles)
+	groupsMap := sliceToMap(userAccess.Groups)
+
+	if userAccess.Superuser {
+		return true
+	}
 
 	resultChan := make(chan AccessResult, 3)
 	defer close(resultChan)
