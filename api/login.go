@@ -104,6 +104,7 @@ func LoginHandler(
 				registryToken.Jti,
 				time.Hour,
 				user.ID,
+				user.Superuser,
 				userInfo.Permissions,
 				userInfo.Roles,
 				userInfo.Groups,
