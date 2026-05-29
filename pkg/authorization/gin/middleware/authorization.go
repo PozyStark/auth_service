@@ -41,7 +41,8 @@ func AuthMiddleware(
 		}
 
 		haveAccess := auth.HaveAccess(
-			&authorization.UserAccess{
+			&jwt.UserAccess{
+				Superuser:   payload.Superuser,
 				Permissions: payload.Permissions,
 				Roles:       payload.Roles,
 				Groups:      payload.Groups,
